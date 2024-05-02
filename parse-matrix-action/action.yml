@@ -1,0 +1,14 @@
+name: "GenMoodleMatrix"
+description: "Parse input to generate job matrix"
+inputs:
+  input:
+    description: "JSON input with information about what jobs to run"
+    required: true
+outputs:
+  static-matrix:
+    description: "Resulting static matrix"
+  test-matrix:
+    description: "Resulting test matrix"
+runs:
+  using: node20
+  main: "dist/index.js"

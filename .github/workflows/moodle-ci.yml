@@ -1,0 +1,41 @@
+name: Moodle Plugin CI
+on:
+  workflow_call:
+
+jobs:
+  setup_jobs:
+    runs-on: ubuntu-latest
+    outputs:
+      static_matrix: ${{ steps.calc-matrix.outputs.static_matrix }}
+      test_matrix: ${{ steps.calc-matrix.outputs.test_matrix }}
+
+    steps:
+      - name: Read config.json
+        id: config
+        uses: jaywcjlove/github-action-read-file@v2.0.0
+        with:
+          path: .github/workflows/config.json
+
+      - name: Generate Matrices
+        id: calc-matrix
+        uses: justusdieckmann/be-workflow/parse-matrix-action@main
+        with:
+          input: ${{ steps.config.outputs.content }}
+
+  static:
+    needs: setup_jobs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.setup_jobs.outputs.static_matrix) }}
+    steps:
+      - run: echo "Static PHP ${{ matrix.php}} - Moodle ${{ matrix.moodle-branch }} - DB ${{ matrix.database }}"
+
+  test:
+    runs-on: ubuntu-latest
+    needs:
+      - setup_jobs
+      - static
+    strategy:
+      matrix: ${{ fromJSON(needs.setup_jobs.outputs.test_matrix) }}
+    steps:
+      - run: echo "Static PHP ${{ matrix.php}} - Moodle ${{ matrix.moodle-branch }} - DB ${{ matrix.database }}"
