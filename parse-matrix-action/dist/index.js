@@ -26821,7 +26821,7 @@ try {
     mainDb ??= "pgsql";
     dbs ??= ["pgsql", "mariadb", "mysql", "mssql", "oracledb"];
 
-    console.log(mainDb, mainPhp, mainMoodle, moodlePhp, dbs, moodlePluginCi);
+    core.setOutput("moodle_plugin_ci", moodlePluginCi);
 
     core.setOutput("static_matrix", JSON.stringify({
         include: [{

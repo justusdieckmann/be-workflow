@@ -5,9 +5,9 @@ inputs:
     description: "JSON input with information about what jobs to run"
     required: true
 outputs:
-  static-matrix:
+  static_matrix:
     description: "Resulting static matrix"
-  test-matrix:
+  test_matrix:
     description: "Resulting test matrix"
 runs:
   using: node20
